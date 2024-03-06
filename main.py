@@ -3,6 +3,11 @@ from settings import *
 import datetime
 from model import Registration, Kid
 
+DIR_TEXT = {
+    "Go": "הלוך - בוקר",
+    "Return": "חזור - אחהצ"
+}
+
 def run():
     st.write('Ring My Bell')
 
@@ -17,7 +22,8 @@ def run():
 def doRegister(target, regs, kids):
     selKid = target.selectbox("Name", kids, format_func=lambda x: x.name)
     selDate = target.date_input("Date")
-    selDirection = target.selectbox("Direction", ["Go", "Return"])
+    selDirectionText = target.selectbox("Direction", DIR_TEXT.values())
+    selDirection = [k for k, v in DIR_TEXT.items() if v == selDirectionText][0]
     selAction = target.selectbox("Action", ["Register", "Cancel"])
 
     if target.button("Register"):
@@ -37,7 +43,7 @@ def doList(target, regs, kids):
 
     
     for direction in ["Go", "Return"]:
-        target.header(direction)
+        target.header(DIR_TEXT[direction])
         kidsLatest = {}
         dirRegs = [reg for reg in regs if reg.date == selDate and reg.direction == direction]
         for reg in dirRegs:
@@ -60,10 +66,10 @@ def doList(target, regs, kids):
             else:
                 canceled.append(kid.name)
         
-        target.markdown(f"### Registered {len(going)}")
+        target.markdown(f"### רשומים {len(going)}")
         for index, name in enumerate(sorted(going)):
             target.write(f'{index+1} {name}')
-        target.markdown(f'### Canceled {len(canceled)}')
+        target.markdown(f'### ביטלו {len(canceled)}')
         for index, name in enumerate(sorted(canceled)):
             target.write(f'{index+1} {name}')
 
