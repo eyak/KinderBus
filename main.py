@@ -20,7 +20,7 @@ def run():
     doList(tab1, regs, kids)
 
 def doRegister(target, regs, kids):
-    selKid = target.selectbox("Name", kids, format_func=lambda x: x.name)
+    selKid = target.selectbox("Name", sorted(kids, key=lambda x: x.name), format_func=lambda x: x.name)
     selDate = target.date_input("Date")
     selDirectionText = target.selectbox("Direction", DIR_TEXT.values())
     selDirection = [k for k, v in DIR_TEXT.items() if v == selDirectionText][0]
